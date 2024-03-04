@@ -1,21 +1,21 @@
 const express = require('express');
-const packageInfo = require('./package.json');
-const bodyParser = require('body-parser');
+require('dotenv').config();
 
+const bot = require('./bot');
 const app = express();
-app.use(bodyParser.json());
+const port = process.env.PORT || 5000;
 
-app.get('/', function (req, res) {
-  res.json({ version: packageInfo.version });
+app.use(express.json());
+
+app.get('/', (req, res) => {
+	res.status(200).json({ message: 'Hello from the Bot API.' });
 });
 
-app.listen(process.env.PORT, function () {
-  console.log('Web server started');
+app.post(`/${process.env.BOT_TOKEN}`, (req, res) => {
+	bot.processUpdate(req.body);
+	res.status(200).json({ message: 'ok' });
 });
 
-module.exports = function (bot) {
-  app.post(`/${process.env.BOT_TOKEN}`, function (req, res) {
-    bot.processUpdate(req.body);
-    res.sendStatus(200);
-  });
-};
+app.listen(port, () => {
+	console.log(`\n\nServer running on port ${port}.\n\n`);
+});
