@@ -42,6 +42,8 @@ const sendReminder = async (chatId) => async () => {
 }
 
 const start = async (msg) => {
+  if(!msg.text || !msg.chat) return;
+
   const chatId = String(msg.chat.id);
   const text = msg.text.toLowerCase();
 
