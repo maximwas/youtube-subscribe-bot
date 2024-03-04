@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 }
 
-console.log('bot server started...', process.env.BOT_TOKEN);
+console.log('bot server started...');
 
 const getPaymentNotification = (id) => {
   return `Привіт @${db.users[id].id}! Чекаю на 149 грн, номер карти ${process.env.NUMBER_CART}`;
@@ -52,7 +52,7 @@ const start = async (msg) => {
     await schedule.scheduleJob(rule, await sendReminder(chatId));
   } else if (text === "/info" && chatId === process.env.CHAT_ID) {
     await bot.sendMessage(chatId, getPaymentStatusOfUsers(db.database.user));
-  } else {
+  } else if (text === "/start" || text === "/info") {
     await bot.sendMessage(chatId, "Я створений не для вас!");
   }
 }

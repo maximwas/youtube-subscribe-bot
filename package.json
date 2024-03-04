@@ -4,7 +4,7 @@
   "description": "Subscription tracking bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "start": "node server"
   },
   "repository": {
     "type": "git",
